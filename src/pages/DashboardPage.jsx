@@ -3,13 +3,18 @@ import EditNoteModal from '../components/EditNoteModal.jsx';
 import NoteEditor from '../components/NoteEditor.jsx';
 import NoteList from '../components/NoteList.jsx';
 import { useNotes } from '../hooks/useNotes.js';
+import { useSearchQuery } from '../hooks/useSearchQuery.js';
 import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from '../services/noteService.js';
 import { getErrorMessage } from '../utils/errorMessage.js';
+import { filterNotes } from '../utils/noteFilters.js';
 
 // home screen: create notes and see the active ones, pinned notes first
 function DashboardPage() {
-  const { notes, loading, error, reload } = useNotes(getAllNotes);
+  const { notes: allNotes, loading, error, reload } = useNotes(getAllNotes);
   const [actionError, setActionError] = useState('');
+  // notes are filtered on the client with the text from the navbar search
+  const searchQuery = useSearchQuery();
+  const notes = filterNotes(allNotes, searchQuery);
   // note currently open in the edit dialog
   const [editingNote, setEditingNote] = useState(null);
 
@@ -70,7 +75,7 @@ function DashboardPage() {
               <h2 className="page-title">Others</h2>
             </>
           )}
-          <NoteList notes={others} renderActions={renderActions} onOpen={setEditingNote} emptyMessage={pinned.length ? 'No other notes' : 'Notes you add appear here'} />
+          <NoteList notes={others} renderActions={renderActions} onOpen={setEditingNote} emptyMessage={searchQuery ? 'No matching notes' : pinned.length ? 'No other notes' : 'Notes you add appear here'} />
         </>
       )}
       {editingNote && <EditNoteModal note={editingNote} onSave={handleUpdate} onClose={() => setEditingNote(null)} />}
