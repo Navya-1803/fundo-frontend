@@ -1,14 +1,19 @@
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './hooks/useAuth.jsx';
+import AppRoutes from './router/AppRoutes.jsx';
+
 /**
- * Root component of the Fundoo Notes frontend.
+ * Root component: login state and routing for the whole application.
  *
  * @author Navya Raj
  */
 function App() {
   return (
-    <main className="app-shell">
-      <h1>Fundoo Notes</h1>
-      <p>Your notes, organised.</p>
-    </main>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
