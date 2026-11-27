@@ -8,6 +8,10 @@ vi.mock('../services/noteService.js', () => ({
   getArchivedNotes: vi.fn(() => Promise.resolve({ data: [] })),
   getTrashedNotes: vi.fn(() => Promise.resolve({ data: [] })),
 }));
+vi.mock('../services/labelService.js', () => ({
+  getLabels: vi.fn(() => Promise.resolve({ data: [] })),
+  getNotesByLabel: vi.fn(() => Promise.resolve({ data: [] })),
+}));
 vi.mock('../services/reminderService.js', () => ({ getReminders: vi.fn(() => Promise.resolve({ data: [] })) }));
 
 const renderAt = (path) =>
@@ -49,5 +53,11 @@ describe('AppRoutes', () => {
     localStorage.setItem('fundoo_token', 'jwt');
     renderAt('/reminders');
     expect(await screen.findByText('Notes with upcoming reminders appear here')).toBeInTheDocument();
+  });
+
+  it('opens a label page', async () => {
+    localStorage.setItem('fundoo_token', 'jwt');
+    renderAt('/labels/4');
+    expect(await screen.findByText('No notes with this label yet')).toBeInTheDocument();
   });
 });

@@ -3,6 +3,7 @@ import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
 import DashboardPage from './DashboardPage.jsx';
 import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from '../services/noteService.js';
 import { setReminder } from '../services/reminderService.js';
+import { addLabelToNote } from '../services/labelService.js';
 
 vi.mock('../services/noteService.js', () => ({
   getAllNotes: vi.fn(),
@@ -13,6 +14,7 @@ vi.mock('../services/noteService.js', () => ({
   updateNote: vi.fn(),
 }));
 vi.mock('../services/reminderService.js', () => ({ setReminder: vi.fn() }));
+vi.mock('../services/labelService.js', () => ({ addLabelToNote: vi.fn(), removeLabelFromNote: vi.fn() }));
 
 const notes = [
   { id: 1, title: 'Shopping', description: 'Milk', pinned: false },
@@ -20,11 +22,11 @@ const notes = [
 ];
 
 // renders the page the way the app layout does, with a search text
-const renderWithSearch = (searchQuery) =>
+const renderWithSearch = (searchQuery, labels = []) =>
   render(
     <MemoryRouter>
       <Routes>
-        <Route element={<Outlet context={{ searchQuery }} />}>
+        <Route element={<Outlet context={{ searchQuery, labels }} />}>
           <Route path="/" element={<DashboardPage />} />
         </Route>
       </Routes>
@@ -123,5 +125,14 @@ describe('DashboardPage', () => {
     fireEvent.change(screen.getByLabelText('Date and time'), { target: { value: '2999-02-01T10:00' } });
     fireEvent.click(screen.getByRole('button', { name: 'Save reminder' }));
     await waitFor(() => expect(setReminder).toHaveBeenCalledWith(1, '2999-02-01T10:00:00', undefined));
+  });
+
+  it('labels a note through the picker', async () => {
+    getAllNotes.mockResolvedValue({ data: [{ id: 1, title: 'Shopping', pinned: false, labels: [] }] });
+    addLabelToNote.mockResolvedValue({});
+    renderWithSearch('', [{ id: 9, name: 'Home' }]);
+    fireEvent.click(await screen.findByRole('button', { name: 'Labels' }));
+    fireEvent.click(screen.getByLabelText('Home'));
+    await waitFor(() => expect(addLabelToNote).toHaveBeenCalledWith(1, 9));
   });
 });
