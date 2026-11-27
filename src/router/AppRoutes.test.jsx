@@ -22,7 +22,7 @@ describe('AppRoutes', () => {
 
   it('sends unknown urls of guests to login', () => {
     renderAt('/somewhere');
-    expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Sign in' })).toBeInTheDocument();
   });
 
   it('opens the dashboard for logged in users', () => {
