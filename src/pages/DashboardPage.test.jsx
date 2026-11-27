@@ -1,8 +1,14 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import DashboardPage from './DashboardPage.jsx';
-import { createNote, getAllNotes } from '../services/noteService.js';
+import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote } from '../services/noteService.js';
 
-vi.mock('../services/noteService.js', () => ({ getAllNotes: vi.fn(), createNote: vi.fn() }));
+vi.mock('../services/noteService.js', () => ({
+  getAllNotes: vi.fn(),
+  createNote: vi.fn(),
+  pinNote: vi.fn(),
+  archiveNote: vi.fn(),
+  moveToTrash: vi.fn(),
+}));
 
 const notes = [
   { id: 1, title: 'Shopping', description: 'Milk', pinned: false },
@@ -43,5 +49,29 @@ describe('DashboardPage', () => {
     getAllNotes.mockImplementation(() => Promise.reject(Object.assign(new Error('x'), { request: {} })));
     render(<DashboardPage />);
     expect(await screen.findByRole('alert')).toHaveTextContent('Cannot reach the server');
+  });
+
+  it('pins, archives and trashes a note then reloads', async () => {
+    getAllNotes.mockResolvedValue({ data: [{ id: 1, title: 'Shopping', pinned: false }] });
+    pinNote.mockResolvedValue({});
+    archiveNote.mockResolvedValue({});
+    moveToTrash.mockResolvedValue({});
+    render(<DashboardPage />);
+    await screen.findByRole('heading', { name: 'Shopping' });
+    fireEvent.click(screen.getByRole('button', { name: 'Pin' }));
+    await waitFor(() => expect(pinNote).toHaveBeenCalledWith(1));
+    fireEvent.click(await screen.findByRole('button', { name: 'Archive' }));
+    await waitFor(() => expect(archiveNote).toHaveBeenCalledWith(1));
+    fireEvent.click(await screen.findByRole('button', { name: 'Trash' }));
+    await waitFor(() => expect(moveToTrash).toHaveBeenCalledWith(1));
+    expect(getAllNotes).toHaveBeenCalledTimes(4);
+  });
+
+  it('shows the error of a failed action', async () => {
+    getAllNotes.mockResolvedValue({ data: [{ id: 1, title: 'Shopping', pinned: false }] });
+    pinNote.mockImplementation(() => Promise.reject(Object.assign(new Error('x'), { response: { data: { message: 'Note not found with id: 1' } } })));
+    render(<DashboardPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Pin' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Note not found with id: 1');
   });
 });
