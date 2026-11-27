@@ -8,6 +8,7 @@ vi.mock('../services/noteService.js', () => ({
   getArchivedNotes: vi.fn(() => Promise.resolve({ data: [] })),
   getTrashedNotes: vi.fn(() => Promise.resolve({ data: [] })),
 }));
+vi.mock('../services/reminderService.js', () => ({ getReminders: vi.fn(() => Promise.resolve({ data: [] })) }));
 
 const renderAt = (path) =>
   render(
@@ -42,5 +43,11 @@ describe('AppRoutes', () => {
     localStorage.setItem('fundoo_token', 'jwt');
     renderAt('/trash');
     expect(await screen.findByText('No notes in trash')).toBeInTheDocument();
+  });
+
+  it('opens the reminders page', async () => {
+    localStorage.setItem('fundoo_token', 'jwt');
+    renderAt('/reminders');
+    expect(await screen.findByText('Notes with upcoming reminders appear here')).toBeInTheDocument();
   });
 });

@@ -1,3 +1,4 @@
+import { formatReminder } from '../utils/dateFormat.js';
 import './NoteCard.css';
 
 // one note in the grid, it only displays data and reports clicks to the parent
@@ -17,6 +18,7 @@ function NoteCard({ note, actions, onOpen }) {
         <h3 className="note-title">{note.title}</h3>
         {note.description && <p className="note-description">{note.description}</p>}
       </div>
+      {note.reminderTime && <span className="note-chip">&#9200; {formatReminder(note.reminderTime)}</span>}
       {actions && <div className="note-actions">{actions}</div>}
     </article>
   );
