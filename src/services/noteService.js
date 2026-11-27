@@ -13,3 +13,10 @@ export const archiveNote = (noteId) => apiClient.patch(`/api/notes/${noteId}/arc
 export const moveToTrash = (noteId) => apiClient.patch(`/api/notes/${noteId}/trash`);
 
 export const updateNote = (noteId, note) => apiClient.put(`/api/notes/${noteId}`, note);
+
+export const getArchivedNotes = () => apiClient.get('/api/notes/archived');
+
+export const getTrashedNotes = () => apiClient.get('/api/notes/trash');
+
+// permanent delete, the backend only allows it for notes in trash
+export const deleteNoteForever = (noteId) => apiClient.delete(`/api/notes/${noteId}`);
