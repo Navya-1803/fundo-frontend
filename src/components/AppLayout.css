@@ -1,0 +1,44 @@
+.app-layout {
+  min-height: 100vh;
+  background: var(--color-surface);
+}
+
+.app-body {
+  display: flex;
+}
+
+.app-content {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 24px 48px;
+}
+
+.page-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin: 24px 0 8px;
+}
+
+.status-text {
+  color: var(--color-muted);
+  text-align: center;
+  margin-top: 48px;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--color-muted);
+  margin-top: 80px;
+  font-size: 18px;
+}
+
+.page-error {
+  background: #fce8e6;
+  color: var(--color-danger);
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
