@@ -26,4 +26,15 @@ describe('NoteLabelPicker', () => {
     fireEvent.click(screen.getByLabelText('Home'));
     expect(await screen.findByRole('alert')).toHaveTextContent('Label not found with id: 2');
   });
+
+  it('checks the box at once and reverts it when saving fails', async () => {
+    let rejectCall;
+    const onToggle = vi.fn(() => new Promise((resolve, reject) => { rejectCall = reject; }));
+    render(<NoteLabelPicker note={note} labels={labels} onToggle={onToggle} onClose={() => {}} />);
+    fireEvent.click(screen.getByLabelText('Home'));
+    expect(screen.getByLabelText('Home')).toBeChecked();
+    rejectCall(new Error('Cannot reach the server'));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Cannot reach the server');
+    expect(screen.getByLabelText('Home')).not.toBeChecked();
+  });
 });
