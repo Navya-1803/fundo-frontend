@@ -2,8 +2,10 @@ import { render, screen } from '@testing-library/react';
 import App from './App.jsx';
 
 describe('App', () => {
-  it('renders the application title', () => {
+  beforeEach(() => localStorage.clear());
+
+  it('starts on the login page for guests', () => {
     render(<App />);
-    expect(screen.getByRole('heading', { name: 'Fundoo Notes' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
   });
 });
