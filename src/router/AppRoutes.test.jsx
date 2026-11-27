@@ -60,4 +60,9 @@ describe('AppRoutes', () => {
     renderAt('/labels/4');
     expect(await screen.findByText('No notes with this label yet')).toBeInTheDocument();
   });
+
+  it('opens the forgot password page', () => {
+    renderAt('/forgot-password');
+    expect(screen.getByRole('heading', { name: 'Forgot password' })).toBeInTheDocument();
+  });
 });

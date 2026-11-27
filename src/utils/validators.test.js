@@ -5,6 +5,7 @@ import {
   validateLogin,
   validateNote,
   validateRegister,
+  validateResetPassword,
 } from './validators.js';
 
 describe('validators', () => {
@@ -41,5 +42,17 @@ describe('validators', () => {
     expect(validateNote({ title: 'a'.repeat(101) }).title).toBeDefined();
     expect(validateNote({ title: 'ok', description: 'a'.repeat(2001) }).description).toBeDefined();
     expect(hasErrors(validateNote({ title: 'Shopping', description: 'Milk' }))).toBe(false);
+  });
+
+  it('validates the reset password form', () => {
+    expect(Object.keys(validateResetPassword({ email: 'x', otp: '12', newPassword: 'a', confirmPassword: 'b' }))).toEqual([
+      'email',
+      'otp',
+      'newPassword',
+      'confirmPassword',
+    ]);
+    expect(
+      hasErrors(validateResetPassword({ email: 'n@example.com', otp: '123456', newPassword: 'newpass123', confirmPassword: 'newpass123' })),
+    ).toBe(false);
   });
 });
