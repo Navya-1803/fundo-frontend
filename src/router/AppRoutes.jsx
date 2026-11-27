@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import AppLayout from '../components/AppLayout.jsx';
 import GuestRoute from '../components/GuestRoute.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import DashboardPage from '../pages/DashboardPage.jsx';
@@ -11,7 +12,10 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<GuestRoute><LoginPage /></GuestRoute>} />
       <Route path="/register" element={<GuestRoute><RegisterPage /></GuestRoute>} />
-      <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+      {/* every logged in page shares the navbar and sidebar layout */}
+      <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
+        <Route path="/dashboard" element={<DashboardPage />} />
+      </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );

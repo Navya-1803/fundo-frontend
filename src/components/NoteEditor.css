@@ -1,0 +1,54 @@
+.note-editor {
+  max-width: 600px;
+  margin: 0 auto 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.2);
+  background: var(--color-surface);
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note-editor input,
+.note-editor textarea {
+  border: none;
+  outline: none;
+  font: inherit;
+  resize: vertical;
+}
+
+.note-editor input {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.note-editor-placeholder {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 15px;
+  color: var(--color-muted);
+  padding: 6px 0;
+  cursor: text;
+}
+
+.note-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.note-editor-actions button {
+  border: none;
+  background: transparent;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.note-editor-actions button:hover {
+  background: #f1f3f4;
+}
