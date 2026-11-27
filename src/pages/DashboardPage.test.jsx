@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
 import DashboardPage from './DashboardPage.jsx';
 import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from '../services/noteService.js';
+import { setReminder } from '../services/reminderService.js';
 
 vi.mock('../services/noteService.js', () => ({
   getAllNotes: vi.fn(),
@@ -11,6 +12,7 @@ vi.mock('../services/noteService.js', () => ({
   moveToTrash: vi.fn(),
   updateNote: vi.fn(),
 }));
+vi.mock('../services/reminderService.js', () => ({ setReminder: vi.fn() }));
 
 const notes = [
   { id: 1, title: 'Shopping', description: 'Milk', pinned: false },
@@ -111,5 +113,15 @@ describe('DashboardPage', () => {
     getAllNotes.mockResolvedValue({ data: notes });
     renderWithSearch('zzz');
     expect(await screen.findByText('No matching notes')).toBeInTheDocument();
+  });
+
+  it('sets a reminder through the picker', async () => {
+    getAllNotes.mockResolvedValue({ data: [{ id: 1, title: 'Shopping', pinned: false }] });
+    setReminder.mockResolvedValue({});
+    render(<DashboardPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Remind me' }));
+    fireEvent.change(screen.getByLabelText('Date and time'), { target: { value: '2999-02-01T10:00' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Save reminder' }));
+    await waitFor(() => expect(setReminder).toHaveBeenCalledWith(1, '2999-02-01T10:00:00', undefined));
   });
 });

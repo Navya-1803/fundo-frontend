@@ -42,7 +42,7 @@ function TrashPage() {
       ) : (
         <NoteList
           notes={notes}
-          emptyMessage={searchQuery ? 'No matching notes' : "No notes in trash"}
+          emptyMessage={searchQuery ? 'No matching notes' : 'No notes in trash'}
           renderActions={(note) => (
             <>
               {/* trash is a toggle, calling it again restores the note */}

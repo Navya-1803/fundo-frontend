@@ -35,7 +35,7 @@ function ArchivePage() {
       ) : (
         <NoteList
           notes={notes}
-          emptyMessage={searchQuery ? 'No matching notes' : "Your archived notes appear here"}
+          emptyMessage={searchQuery ? 'No matching notes' : 'Your archived notes appear here'}
           renderActions={(note) => (
             <>
               {/* archive is a toggle, calling it again restores the note */}
