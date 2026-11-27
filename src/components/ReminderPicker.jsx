@@ -38,6 +38,8 @@ function ReminderPicker({ note, onSave, onClose }) {
         <input id="reminder-time" type="datetime-local" value={time} onChange={(e) => setTime(e.target.value)} />
         <label htmlFor="reminder-message">Message (optional)</label>
         <input id="reminder-message" value={message} onChange={(e) => setMessage(e.target.value)} maxLength={255} />
+        {/* the backend emails the reminder to the account address at this time */}
+        <p className="reminder-hint">You will get an email with this reminder at the chosen time.</p>
         {error && <p className="field-error" role="alert">{error}</p>}
         <div className="modal-actions">
           <button type="button" onClick={onClose}>Cancel</button>

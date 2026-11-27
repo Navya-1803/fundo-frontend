@@ -35,4 +35,15 @@ describe('NoteCard', () => {
     render(<NoteCard note={{ id: 6, title: 'Report', labels: [{ id: 1, name: 'Work' }] }} />);
     expect(screen.getByText('Work')).toBeInTheDocument();
   });
+
+
+  it('shows that the reminder email was sent', () => {
+    render(<NoteCard note={{ id: 7, title: 'Call', reminderTime: '2020-01-01T09:00:00', reminderSent: true }} />);
+    expect(screen.getByText(/Email sent/)).toBeInTheDocument();
+  });
+
+  it('hides the email chip while the reminder is pending', () => {
+    render(<NoteCard note={{ id: 8, title: 'Call', reminderTime: '2030-01-01T09:00:00', reminderSent: false }} />);
+    expect(screen.queryByText(/Email sent/)).not.toBeInTheDocument();
+  });
 });
