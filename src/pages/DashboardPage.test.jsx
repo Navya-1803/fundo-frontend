@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter, Outlet, Route, Routes } from 'react-router-dom';
 import DashboardPage from './DashboardPage.jsx';
 import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from '../services/noteService.js';
 
@@ -15,6 +16,18 @@ const notes = [
   { id: 1, title: 'Shopping', description: 'Milk', pinned: false },
   { id: 2, title: 'Ideas', description: '', pinned: true },
 ];
+
+// renders the page the way the app layout does, with a search text
+const renderWithSearch = (searchQuery) =>
+  render(
+    <MemoryRouter>
+      <Routes>
+        <Route element={<Outlet context={{ searchQuery }} />}>
+          <Route path="/" element={<DashboardPage />} />
+        </Route>
+      </Routes>
+    </MemoryRouter>,
+  );
 
 describe('DashboardPage', () => {
   afterEach(() => vi.clearAllMocks());
@@ -85,5 +98,18 @@ describe('DashboardPage', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
     await waitFor(() => expect(updateNote).toHaveBeenCalledWith(1, { title: 'Groceries', description: 'Milk' }));
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
+  it('filters notes with the search text', async () => {
+    getAllNotes.mockResolvedValue({ data: notes });
+    renderWithSearch('milk');
+    expect(await screen.findByRole('heading', { name: 'Shopping' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Ideas' })).not.toBeInTheDocument();
+  });
+
+  it('tells when nothing matches', async () => {
+    getAllNotes.mockResolvedValue({ data: notes });
+    renderWithSearch('zzz');
+    expect(await screen.findByText('No matching notes')).toBeInTheDocument();
   });
 });
