@@ -29,6 +29,17 @@ export const validateRegister = ({ firstName, email, password, confirmPassword }
   return errors;
 };
 
+export const validateResetPassword = ({ email, otp, newPassword, confirmPassword }) => {
+  const errors = {};
+  if (!isValidEmail(email)) errors.email = 'Enter a valid email';
+  if (!/^\d{6}$/.test((otp || '').trim())) errors.otp = 'OTP must be 6 digits';
+  if (!isStrongPassword(newPassword)) {
+    errors.newPassword = 'Password must be at least 8 characters and contain a letter and a digit';
+  }
+  if (newPassword !== confirmPassword) errors.confirmPassword = 'Passwords do not match';
+  return errors;
+};
+
 export const validateNote = ({ title, description }) => {
   const errors = {};
   if (!title?.trim()) errors.title = 'Title is required';
