@@ -6,6 +6,7 @@ import ArchivePage from '../pages/ArchivePage.jsx';
 import DashboardPage from '../pages/DashboardPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import RegisterPage from '../pages/RegisterPage.jsx';
+import ReminderPage from '../pages/ReminderPage.jsx';
 import TrashPage from '../pages/TrashPage.jsx';
 
 // every screen of the application and who is allowed to open it
@@ -17,6 +18,7 @@ function AppRoutes() {
       {/* every logged in page shares the navbar and sidebar layout */}
       <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/reminders" element={<ReminderPage />} />
         <Route path="/archive" element={<ArchivePage />} />
         <Route path="/trash" element={<TrashPage />} />
       </Route>

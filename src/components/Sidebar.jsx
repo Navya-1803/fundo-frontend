@@ -4,6 +4,7 @@ import './Sidebar.css';
 // main navigation between the note views
 export const NAV_ITEMS = [
   { to: '/dashboard', label: 'Notes', icon: '\u{1F4A1}' },
+  { to: '/reminders', label: 'Reminders', icon: '\u{1F514}' },
   { to: '/archive', label: 'Archive', icon: '\u{1F4E5}' },
   { to: '/trash', label: 'Trash', icon: '\u{1F5D1}' },
 ];

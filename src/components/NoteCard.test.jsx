@@ -25,4 +25,9 @@ describe('NoteCard', () => {
     expect(onOpen).toHaveBeenCalledTimes(2);
     expect(onOpen).toHaveBeenCalledWith(note);
   });
+
+  it('shows the reminder chip', () => {
+    render(<NoteCard note={{ id: 5, title: 'Call', reminderTime: '2030-01-01T09:00:00' }} />);
+    expect(screen.getByText(/2030/)).toBeInTheDocument();
+  });
 });
