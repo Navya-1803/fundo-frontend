@@ -1,0 +1,31 @@
+/* global styles shared by every page */
+:root {
+  --color-primary: #f9bb2d;
+  --color-primary-dark: #e0a313;
+  --color-text: #202124;
+  --color-muted: #5f6368;
+  --color-border: #e0e0e0;
+  --color-surface: #ffffff;
+  --color-background: #f8f9fa;
+  --color-danger: #d93025;
+  --color-success: #188038;
+  --radius: 8px;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
