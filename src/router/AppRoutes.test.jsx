@@ -17,7 +17,7 @@ describe('AppRoutes', () => {
 
   it('shows the register page', () => {
     renderAt('/register');
-    expect(screen.getByRole('heading', { name: 'Register' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Create your account' })).toBeInTheDocument();
   });
 
   it('sends unknown urls of guests to login', () => {
