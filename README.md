@@ -8,7 +8,7 @@ It talks to the Spring Boot backend in
 
 ## Features
 
-* Register, sign in, sign out, forgot password and reset password with an OTP
+* Register, sign in, sign out, forgot password and reset password with an OTP sent by email
 * Protected pages: only signed in users can open the notes
 * Dashboard with "Take a note..." editor, pinned and other notes
 * Edit a note by clicking it, pin / unpin, archive, move to trash
@@ -65,6 +65,7 @@ Every component, page, hook, service and utility has a matching `*.test.js(x)` f
 | `feature/UC11-Label` | Labels |
 | `feature/UC12-ForgotResetPassword` | Forgot and reset password |
 | `feature/UC13-IntegrationFixes` | Fixes found while testing with the backend |
+| `feature/UC14-EmailOtp` | OTP is emailed instead of shown on screen |
 
 ## How to Run
 
