@@ -4,6 +4,7 @@ import GuestRoute from '../components/GuestRoute.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import ArchivePage from '../pages/ArchivePage.jsx';
 import DashboardPage from '../pages/DashboardPage.jsx';
+import LabelPage from '../pages/LabelPage.jsx';
 import LoginPage from '../pages/LoginPage.jsx';
 import RegisterPage from '../pages/RegisterPage.jsx';
 import ReminderPage from '../pages/ReminderPage.jsx';
@@ -21,6 +22,7 @@ function AppRoutes() {
         <Route path="/reminders" element={<ReminderPage />} />
         <Route path="/archive" element={<ArchivePage />} />
         <Route path="/trash" element={<TrashPage />} />
+        <Route path="/labels/:labelId" element={<LabelPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

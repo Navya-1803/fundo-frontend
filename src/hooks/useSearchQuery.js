@@ -1,7 +1,6 @@
-import { useOutletContext } from 'react-router-dom';
+import { useLayoutContext } from './useLayoutContext.js';
 
 // search text typed in the navbar, empty when the page is used outside the layout
 export function useSearchQuery() {
-  const context = useOutletContext();
-  return context?.searchQuery || '';
+  return useLayoutContext().searchQuery;
 }
