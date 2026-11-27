@@ -1,14 +1,17 @@
 import { useState } from 'react';
+import EditNoteModal from '../components/EditNoteModal.jsx';
 import NoteEditor from '../components/NoteEditor.jsx';
 import NoteList from '../components/NoteList.jsx';
 import { useNotes } from '../hooks/useNotes.js';
-import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote } from '../services/noteService.js';
+import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from '../services/noteService.js';
 import { getErrorMessage } from '../utils/errorMessage.js';
 
 // home screen: create notes and see the active ones, pinned notes first
 function DashboardPage() {
   const { notes, loading, error, reload } = useNotes(getAllNotes);
   const [actionError, setActionError] = useState('');
+  // note currently open in the edit dialog
+  const [editingNote, setEditingNote] = useState(null);
 
   const handleCreate = async (note) => {
     try {
@@ -16,6 +19,15 @@ function DashboardPage() {
       await reload();
     } catch (err) {
       // the editor shows this message under the input fields
+      throw new Error(getErrorMessage(err, 'Could not save the note'));
+    }
+  };
+
+  const handleUpdate = async (noteId, note) => {
+    try {
+      await updateNote(noteId, note);
+      await reload();
+    } catch (err) {
       throw new Error(getErrorMessage(err, 'Could not save the note'));
     }
   };
@@ -54,13 +66,14 @@ function DashboardPage() {
           {pinned.length > 0 && (
             <>
               <h2 className="page-title">Pinned</h2>
-              <NoteList notes={pinned} renderActions={renderActions} />
+              <NoteList notes={pinned} renderActions={renderActions} onOpen={setEditingNote} />
               <h2 className="page-title">Others</h2>
             </>
           )}
-          <NoteList notes={others} renderActions={renderActions} emptyMessage={pinned.length ? 'No other notes' : 'Notes you add appear here'} />
+          <NoteList notes={others} renderActions={renderActions} onOpen={setEditingNote} emptyMessage={pinned.length ? 'No other notes' : 'Notes you add appear here'} />
         </>
       )}
+      {editingNote && <EditNoteModal note={editingNote} onSave={handleUpdate} onClose={() => setEditingNote(null)} />}
     </section>
   );
 }

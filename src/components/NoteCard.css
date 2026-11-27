@@ -67,3 +67,7 @@
   background: #f1f3f4;
   color: var(--color-text);
 }
+
+.note-body.clickable {
+  cursor: pointer;
+}

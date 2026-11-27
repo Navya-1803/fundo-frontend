@@ -11,3 +11,5 @@ export const pinNote = (noteId) => apiClient.patch(`/api/notes/${noteId}/pin`);
 export const archiveNote = (noteId) => apiClient.patch(`/api/notes/${noteId}/archive`);
 
 export const moveToTrash = (noteId) => apiClient.patch(`/api/notes/${noteId}/trash`);
+
+export const updateNote = (noteId, note) => apiClient.put(`/api/notes/${noteId}`, note);
