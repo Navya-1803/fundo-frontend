@@ -14,7 +14,8 @@ It talks to the Spring Boot backend in
 * Edit a note by clicking it, pin / unpin, archive, move to trash
 * Archive and Trash pages, restore and delete forever
 * Search bar that filters the notes of the current page
-* Reminders with a date-time picker and a Reminders page
+* Reminders with a date-time picker and a Reminders page; the reminder is emailed at the
+  chosen time and the note shows "Email sent" afterwards
 * Labels: create, rename and delete labels, label notes, one page per label
 * Loading, empty and error messages everywhere
 
@@ -66,6 +67,7 @@ Every component, page, hook, service and utility has a matching `*.test.js(x)` f
 | `feature/UC12-ForgotResetPassword` | Forgot and reset password |
 | `feature/UC13-IntegrationFixes` | Fixes found while testing with the backend |
 | `feature/UC14-EmailOtp` | OTP is emailed instead of shown on screen |
+| `feature/UC15-ReminderEmail` | Reminder email hint and sent state |
 
 ## How to Run
 
