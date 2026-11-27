@@ -29,4 +29,10 @@ describe('ReminderPicker', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Save reminder' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Note not found with id: 3');
   });
+
+
+  it('tells the user the reminder is sent by email', () => {
+    render(<ReminderPicker note={note} onSave={() => Promise.resolve()} onClose={() => {}} />);
+    expect(screen.getByText(/You will get an email/)).toBeInTheDocument();
+  });
 });

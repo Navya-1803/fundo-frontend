@@ -19,6 +19,7 @@ function NoteCard({ note, actions, onOpen }) {
         {note.description && <p className="note-description">{note.description}</p>}
       </div>
       {note.reminderTime && <span className="note-chip">&#9200; {formatReminder(note.reminderTime)}</span>}
+      {note.reminderTime && note.reminderSent && <span className="note-chip">&#9993; Email sent</span>}
       {(note.labels || []).map((label) => (
         <span key={label.id} className="note-chip">{label.name}</span>
       ))}
