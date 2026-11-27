@@ -22,4 +22,13 @@ describe('Sidebar', () => {
     );
     expect(screen.getByRole('navigation')).toHaveClass('collapsed');
   });
+
+  it('links to the reminders page', () => {
+    render(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('link', { name: /Reminders/ })).toHaveAttribute('href', '/reminders');
+  });
 });
