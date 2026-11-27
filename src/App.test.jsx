@@ -6,6 +6,6 @@ describe('App', () => {
 
   it('starts on the login page for guests', () => {
     render(<App />);
-    expect(screen.getByRole('heading', { name: 'Login' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Sign in' })).toBeInTheDocument();
   });
 });
