@@ -52,19 +52,19 @@ Every component, page, hook, service and utility has a matching `*.test.js(x)` f
 
 | Branch | Feature |
 |---|---|
-| `feature/ProjectSetup` | API client, token storage, validators |
-| `feature/ProtectedRouting` | Routing, protected and guest routes, auth context |
-| `feature/Register` | Register page |
-| `feature/Login` | Login page |
-| `feature/Dashboard` | Layout, note editor and note list |
-| `feature/NoteActions` | Pin, archive and trash |
-| `feature/EditNote` | Edit dialog |
-| `feature/ArchiveAndTrash` | Archive and Trash pages |
-| `feature/Search` | Search bar |
-| `feature/Reminder` | Reminders |
-| `feature/Label` | Labels |
-| `feature/ForgotResetPassword` | Forgot and reset password |
-| `feature/IntegrationFixes` | Fixes found while testing with the backend |
+| `feature/UC1-ProjectSetup` | API client, token storage, validators |
+| `feature/UC2-ProtectedRouting` | Routing, protected and guest routes, auth context |
+| `feature/UC3-Register` | Register page |
+| `feature/UC4-Login` | Login page |
+| `feature/UC5-Dashboard` | Layout, note editor and note list |
+| `feature/UC6-NoteActions` | Pin, archive and trash |
+| `feature/UC7-EditNote` | Edit dialog |
+| `feature/UC8-ArchiveAndTrash` | Archive and Trash pages |
+| `feature/UC9-Search` | Search bar |
+| `feature/UC10-Reminder` | Reminders |
+| `feature/UC11-Label` | Labels |
+| `feature/UC12-ForgotResetPassword` | Forgot and reset password |
+| `feature/UC13-IntegrationFixes` | Fixes found while testing with the backend |
 
 ## How to Run
 
