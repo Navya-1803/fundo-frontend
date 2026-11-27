@@ -6,7 +6,7 @@ import { forgotPassword } from '../services/authService.js';
 import { getErrorMessage } from '../utils/errorMessage.js';
 import { isValidEmail } from '../utils/validators.js';
 
-// asks for the email and requests a one time password from the backend
+// asks for the email, the backend then emails a one time password to it
 function ForgotPasswordPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -25,8 +25,8 @@ function ForgotPasswordPage() {
     setLoading(true);
     try {
       const response = await forgotPassword(email.trim());
-      // no mail server is connected, so the OTP from the response is shown on the next page
-      navigate('/reset-password', { state: { email: email.trim(), otp: response.data.otp, message: response.data.message } });
+      // the backend emails the OTP, the next page only shows where it was sent
+      navigate('/reset-password', { state: { email: email.trim(), message: response.data.message } });
     } catch (err) {
       setServerError(getErrorMessage(err, 'Could not send the OTP'));
       setLoading(false);
@@ -34,7 +34,7 @@ function ForgotPasswordPage() {
   };
 
   return (
-    <AuthCard title="Forgot password" subtitle="Enter your email to get a one time password">
+    <AuthCard title="Forgot password" subtitle="We will email you a one time password">
       {serverError && <div className="form-message error" role="alert">{serverError}</div>}
       <form onSubmit={handleSubmit} noValidate>
         <FormField label="Email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} error={error} autoComplete="email" />

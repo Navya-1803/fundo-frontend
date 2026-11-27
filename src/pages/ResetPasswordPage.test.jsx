@@ -9,7 +9,7 @@ function LoginProbe() {
   return <p>{useLocation().state?.message}</p>;
 }
 
-const renderPage = (state = { email: 'navya@example.com', otp: '123456' }) =>
+const renderPage = (state = { email: 'navya@example.com', message: 'OTP sent to navya@example.com, it is valid for 5 minutes' }) =>
   render(
     <MemoryRouter initialEntries={[{ pathname: '/reset-password', state }]}>
       <Routes>
@@ -24,9 +24,10 @@ const fill = (label, value) => fireEvent.change(screen.getByLabelText(label), { 
 describe('ResetPasswordPage', () => {
   afterEach(() => vi.clearAllMocks());
 
-  it('shows the OTP and prefills the email', () => {
+  it('tells the user to check the email and prefills it', () => {
     renderPage();
-    expect(screen.getByRole('status')).toHaveTextContent('123456');
+    expect(screen.getByRole('status')).toHaveTextContent('OTP sent to navya@example.com');
+    expect(screen.getByRole('status')).toHaveTextContent('Check your inbox');
     expect(screen.getByLabelText('Email')).toHaveValue('navya@example.com');
   });
 
