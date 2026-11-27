@@ -30,4 +30,9 @@ describe('NoteCard', () => {
     render(<NoteCard note={{ id: 5, title: 'Call', reminderTime: '2030-01-01T09:00:00' }} />);
     expect(screen.getByText(/2030/)).toBeInTheDocument();
   });
+
+  it('shows label chips', () => {
+    render(<NoteCard note={{ id: 6, title: 'Report', labels: [{ id: 1, name: 'Work' }] }} />);
+    expect(screen.getByText('Work')).toBeInTheDocument();
+  });
 });

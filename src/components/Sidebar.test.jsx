@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Sidebar from './Sidebar.jsx';
 
@@ -30,5 +30,17 @@ describe('Sidebar', () => {
       </MemoryRouter>,
     );
     expect(screen.getByRole('link', { name: /Reminders/ })).toHaveAttribute('href', '/reminders');
+  });
+
+  it('lists labels and opens the label editor', () => {
+    const onEditLabels = vi.fn();
+    render(
+      <MemoryRouter>
+        <Sidebar labels={[{ id: 3, name: 'Work' }]} onEditLabels={onEditLabels} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole('link', { name: /Work/ })).toHaveAttribute('href', '/labels/3');
+    fireEvent.click(screen.getByRole('button', { name: /Edit labels/ }));
+    expect(onEditLabels).toHaveBeenCalled();
   });
 });
