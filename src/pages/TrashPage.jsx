@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import NoteList from '../components/NoteList.jsx';
 import { useNotes } from '../hooks/useNotes.js';
+import { useSearchQuery } from '../hooks/useSearchQuery.js';
 import { deleteNoteForever, getTrashedNotes, moveToTrash } from '../services/noteService.js';
 import { getErrorMessage } from '../utils/errorMessage.js';
+import { filterNotes } from '../utils/noteFilters.js';
 
 // notes in trash can be restored or deleted forever
 function TrashPage() {
-  const { notes, loading, error, reload } = useNotes(getTrashedNotes);
+  const { notes: allNotes, loading, error, reload } = useNotes(getTrashedNotes);
   const [actionError, setActionError] = useState('');
+  // notes are filtered on the client with the text from the navbar search
+  const searchQuery = useSearchQuery();
+  const notes = filterNotes(allNotes, searchQuery);
 
   const runAction = async (action, noteId) => {
     setActionError('');
@@ -37,7 +42,7 @@ function TrashPage() {
       ) : (
         <NoteList
           notes={notes}
-          emptyMessage="No notes in trash"
+          emptyMessage={searchQuery ? 'No matching notes' : "No notes in trash"}
           renderActions={(note) => (
             <>
               {/* trash is a toggle, calling it again restores the note */}
