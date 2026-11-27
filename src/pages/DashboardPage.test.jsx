@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import DashboardPage from './DashboardPage.jsx';
-import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote } from '../services/noteService.js';
+import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from '../services/noteService.js';
 
 vi.mock('../services/noteService.js', () => ({
   getAllNotes: vi.fn(),
@@ -8,6 +8,7 @@ vi.mock('../services/noteService.js', () => ({
   pinNote: vi.fn(),
   archiveNote: vi.fn(),
   moveToTrash: vi.fn(),
+  updateNote: vi.fn(),
 }));
 
 const notes = [
@@ -73,5 +74,16 @@ describe('DashboardPage', () => {
     render(<DashboardPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Pin' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Note not found with id: 1');
+  });
+
+  it('edits a note through the dialog', async () => {
+    getAllNotes.mockResolvedValue({ data: [{ id: 1, title: 'Shopping', description: 'Milk', pinned: false }] });
+    updateNote.mockResolvedValue({});
+    render(<DashboardPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Edit Shopping' }));
+    fireEvent.change(screen.getByLabelText('Edit title'), { target: { value: 'Groceries' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    await waitFor(() => expect(updateNote).toHaveBeenCalledWith(1, { title: 'Groceries', description: 'Milk' }));
+    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 });

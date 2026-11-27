@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import NoteCard from './NoteCard.jsx';
 
 describe('NoteCard', () => {
@@ -14,5 +14,15 @@ describe('NoteCard', () => {
     render(<NoteCard note={{ id: 2, title: 'Ideas', pinned: true }} />);
     expect(screen.getByText('Pinned')).toBeInTheDocument();
     expect(screen.getByRole('article')).toHaveClass('pinned');
+  });
+
+  it('opens the note when the text is clicked', () => {
+    const onOpen = vi.fn();
+    const note = { id: 3, title: 'Todo', description: 'x' };
+    render(<NoteCard note={note} onOpen={onOpen} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Edit Todo' }));
+    fireEvent.keyDown(screen.getByRole('button', { name: 'Edit Todo' }), { key: 'Enter' });
+    expect(onOpen).toHaveBeenCalledTimes(2);
+    expect(onOpen).toHaveBeenCalledWith(note);
   });
 });

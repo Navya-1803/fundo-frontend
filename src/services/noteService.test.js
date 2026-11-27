@@ -1,11 +1,12 @@
 import apiClient from '../utils/apiClient.js';
-import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote } from './noteService.js';
+import { archiveNote, createNote, getAllNotes, moveToTrash, pinNote, updateNote } from './noteService.js';
 
 vi.mock('../utils/apiClient.js', () => ({
   default: {
     get: vi.fn(() => Promise.resolve({ data: [] })),
     post: vi.fn(() => Promise.resolve({ data: {} })),
     patch: vi.fn(() => Promise.resolve({ data: {} })),
+    put: vi.fn(() => Promise.resolve({ data: {} })),
   },
 }));
 
@@ -27,5 +28,10 @@ describe('noteService', () => {
     expect(apiClient.patch).toHaveBeenCalledWith('/api/notes/1/pin');
     expect(apiClient.patch).toHaveBeenCalledWith('/api/notes/2/archive');
     expect(apiClient.patch).toHaveBeenCalledWith('/api/notes/3/trash');
+  });
+
+  it('updates a note with PUT', async () => {
+    await updateNote(4, { title: 'T', description: 'D' });
+    expect(apiClient.put).toHaveBeenCalledWith('/api/notes/4', { title: 'T', description: 'D' });
   });
 });
