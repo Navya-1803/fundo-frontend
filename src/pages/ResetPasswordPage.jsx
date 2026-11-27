@@ -39,9 +39,9 @@ function ResetPasswordPage() {
 
   return (
     <AuthCard title="Reset password" subtitle="Enter the OTP and choose a new password">
-      {state?.otp && !serverError && (
+      {state?.message && !serverError && (
         <div className="form-message success" role="status">
-          Your OTP is <strong>{state.otp}</strong> (shown here because no mail server is connected)
+          {state.message}. Check your inbox (and spam folder) for the 6 digit code.
         </div>
       )}
       {serverError && <div className="form-message error" role="alert">{serverError}</div>}

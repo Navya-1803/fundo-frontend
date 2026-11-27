@@ -7,7 +7,7 @@ vi.mock('../services/authService.js', () => ({ forgotPassword: vi.fn() }));
 
 function ResetProbe() {
   const { state } = useLocation();
-  return <p>{`${state.email} ${state.otp}`}</p>;
+  return <p>{`${state.email} | ${state.message} | otp: ${state.otp ?? 'none'}`}</p>;
 }
 
 const renderPage = () =>
@@ -30,12 +30,12 @@ describe('ForgotPasswordPage', () => {
     expect(forgotPassword).not.toHaveBeenCalled();
   });
 
-  it('requests the OTP and opens the reset page', async () => {
-    forgotPassword.mockResolvedValue({ data: { message: 'OTP sent', otp: '123456' } });
+  it('requests the OTP email and opens the reset page without the code', async () => {
+    forgotPassword.mockResolvedValue({ data: { message: 'OTP sent to navya@example.com, it is valid for 5 minutes' } });
     renderPage();
     fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'navya@example.com' } });
     fireEvent.click(screen.getByRole('button', { name: 'Send OTP' }));
-    expect(await screen.findByText('navya@example.com 123456')).toBeInTheDocument();
+    expect(await screen.findByText('navya@example.com | OTP sent to navya@example.com, it is valid for 5 minutes | otp: none')).toBeInTheDocument();
   });
 
   it('shows the backend error', async () => {
